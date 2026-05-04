@@ -2,66 +2,46 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>Treap Visualization</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treap 視覺化展示</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="top-bar">
-            <div id="status-pill">目前動作：<span id="status">Completed</span></div>
+    <div id="header">
+        Treap 視覺化展示 
+        <span class="status-badge" id="status-display">等待中...</span>
+    </div>
+
+    <div id="treap-container"></div>
+
+    <div id="controls">
+        <div class="playback-group">
+            <button id="play-pause-btn" class="btn-step" onclick="togglePlay()">Play</button>
+            <button class="btn-step" onclick="stepBack()">上一步</button>
+            <button class="btn-step" onclick="stepNext()">下一步</button>
+            <input type="range" id="speed-slider" min="200" max="2000" value="1000" onchange="updateSpeed()">
         </div>
 
-        <div id="tree-container"></div>
+        <span class="divider">|</span>
 
-        <div class="bottom-controls">
-            
-            <div class="control-section left">
-                <div class="seed-row">
-                    <input type="number" id="seed-input" value="67">
-                    <button class="small-btn" onclick="handleSetSeed()">Set</button>
-                </div>
-                <button id="worst-seed-btn" class="link-btn" onclick="handleWorstSeed()">Find Worst Seed</button>
-            </div>
+        <div class="seed-group">
+            Seed: <input type="number" id="seed-input" value="67">
+            <button class="btn-seed" onclick="handleSetSeed()">Set Seed</button>
+        </div>
 
-            <div class="control-section middle">
-                <div class="play-btns">
-                    <button class="step-btn" onclick="stepBack()">Step Back</button>
-                    <button id="play-pause-btn" class="play-btn" onclick="togglePlay()">Play</button>
-                    <button class="step-btn" onclick="stepNext()">Step Next</button>
-                </div>
-                <div class="speed-row">
-                    <span>Speed:</span>
-                    <input type="range" id="speed-slider" min="200" max="2000" value="1200" onchange="updateSpeed()">
-                </div>
-            </div>
+        <span class="divider">|</span>
 
-            <div class="control-section right">
-                <button class="main-btn insert" onclick="showInput('insert')">Insert</button>
-                <button class="main-btn remove" onclick="showInput('remove')">Remove</button>
-                <button class="main-btn query" onclick="showInput('query')">Query Range</button>
-            </div>
+        <div class="input-group">
+            位置 (Idx): <input type="number" id="input-pos" value="1">
+            數值 (Val): <input type="number" id="input-val" value="15">
+            <button class="btn-insert" onclick="handleAction('insert')">Insert</button>
+            <button class="btn-remove" onclick="handleAction('remove')">Remove</button>
+            <button class="btn-clear" onclick="handleClear()">Clear</button>
         </div>
     </div>
 
-    <div id="input-overlay" class="hidden">
-        <div class="modal">
-            <h3 id="input-title">Input</h3>
-            <div id="single-input-group">
-                <input type="number" id="node-value" value="10">
-            </div>
-            <div id="range-input-group" class="hidden">
-                <input type="number" id="range-l" placeholder="L">
-                <input type="number" id="range-r" placeholder="R">
-            </div>
-            <div class="modal-actions">
-                <button id="confirm-btn" class="main-btn insert">確認</button>
-                <button onclick="hideInput()" class="cancel-btn">取消</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="{{ url_for('static', filename='d3-logic.js') }}"></script>
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script src="d3-logic.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
