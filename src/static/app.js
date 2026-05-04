@@ -1,196 +1,67 @@
-let actionQueue = [];      
-let currentStepIdx = -1;   
-let isPlaying = false;     
-let autoPlayTimer = null;  
-let animationSpeed = 1000; 
+const container = document.getElementById('treap-container');
+const svg = d3.select("#treap-container").append("svg")
+    .attr("width", "100%")
+    .attr("height", "100%");
+const margin = { top: 60, right: 20, bottom: 20, left: 20 };
 
-window.onload = async () => {
-    document.getElementById("node-value").value = "10";
-    document.getElementById("seed-input").value = "67"; 
-    updateSpeed();
-    await loadInitialArray();
-};
+window.updateTreap = function(frame) {
+    svg.selectAll("*").remove();
+    if (!frame || !frame.data) return;
 
-async function loadInitialArray() {
+    const roots = frame.data.children || []; // 取得分割後的 Treap 陣列
+    const fullWidth = container.clientWidth;
+    const fullHeight = container.clientHeight;
+    const treeWidth = fullWidth / (roots.length || 1);
 
-    const initNodes = [
-        { id: "n4", val: 4 },
-        { id: "n8", val: 8 },
-        { id: "n7", val: 7 }
-    ];
-    
-    document.getElementById("status").innerText = "Building...";
-    const res = await callTreapApi('treap_build', { nodes: initNodes });
-    
-    if (res && res.success && res.data.length > 0) {
-        const lastFrame = res.data[res.data.length - 1];
-        updateTreap(lastFrame.data);
-        document.getElementById("status").innerText = "Completed";
-    }
-    updateButtonStates();
-}
+    roots.forEach((rootData, i) => {
+        if (!rootData || rootData.isEmpty) return;
 
-function playSteps(steps) {
-    actionQueue = steps;
-    currentStepIdx = 0;
-    updateFrame();
-    if (isPlaying) startAutoPlay();
-}
-
-function togglePlay() {
-    const btn = document.getElementById("play-pause-btn");
-    if (isPlaying) {
-        isPlaying = false;
-        btn.innerText = "Play";
-        btn.style.backgroundColor = "#2ecc71";
-        clearTimeout(autoPlayTimer);
-    } else {
-        isPlaying = true;
-        btn.innerText = "Pause";
-        btn.style.backgroundColor = "#e67e22";
-        startAutoPlay();
-    }
-}
-
-function startAutoPlay() {
-    if (!isPlaying) return;
-    if (currentStepIdx < actionQueue.length - 1) {
-        autoPlayTimer = setTimeout(() => {
-            stepNext();
-            startAutoPlay();
-        }, animationSpeed);
-    } else {
-        isPlaying = false;
-        const btn = document.getElementById("play-pause-btn");
-        btn.innerText = "Play";
-        btn.style.backgroundColor = "#2ecc71";
-    }
-}
-
-function stepNext() {
-    if (currentStepIdx < actionQueue.length - 1) {
-        currentStepIdx++;
-        updateFrame();
-    }
-}
-
-function stepBack() {
-    if (currentStepIdx > 0) {
-        currentStepIdx--;
-        updateFrame();
-    }
-}
-
-function updateFrame() {
-    if (currentStepIdx >= 0 && currentStepIdx < actionQueue.length) {
-        const frame = actionQueue[currentStepIdx];
-        document.getElementById("status").innerText = frame.name || "Running";
-        if (typeof updateTreap === "function") updateTreap(frame.data);
-        updateButtonStates();
-    }
-}
-
-
-async function callTreapApi(endpoint, payload = {}) {
-
-    const method = (endpoint === 'find_worst_seed') ? 'GET' : 'POST';
-    const config = {
-        method: method,
-        headers: { 'Content-Type': 'application/json' }
-    };
-    
-    if (method === 'POST') {
-        config.body = JSON.stringify(payload);
-    }
-
-    try {
-        const response = await fetch(`http://127.0.0.1:5000/api/${endpoint}`, config);
-        const result = await response.json();
-
-        if (result.success) {
-            if (result.data && Array.isArray(result.data)) {
-                playSteps(result.data);
-            }
-            return result;
-        } else {
-            console.error("API Error:", result.data);
-            return null;
-        }
-    } catch (error) {
-        console.error("Network Error:", error);
-        return null;
-    }
-}
-
-
-async function handleAction(type) {
-    const val = parseInt(document.getElementById("node-value").value);
-    if (isNaN(val)) return;
-    hideInput();
-
-    if (type === 'insert') {
-
-        await callTreapApi('treap_insert', { 
-            pos: 0, 
-            id: `n${val}_${Date.now()}`, 
-            val: val 
+        const hierarchy = d3.hierarchy(rootData, d => {
+            const kids = [];
+            if (d.left && !d.left.isEmpty) kids.push(d.left);
+            if (d.right && !d.right.isEmpty) kids.push(d.right);
+            return kids;
         });
-    } else if (type === 'remove') {
-        await callTreapApi('treap_remove', { pos: val });
-    }
-}
 
-async function handleQuery() {
-    const L = parseInt(document.getElementById("range-l").value);
-    const R = parseInt(document.getElementById("range-r").value);
-    if (isNaN(L) || isNaN(R)) return;
-    hideInput();
-    await callTreapApi('treap_query', { l: L, r: R });
-}
+        const treeLayout = d3.tree().size([treeWidth - 80, fullHeight - 160]);
+        treeLayout(hierarchy);
 
-async function handleSetSeed() {
-    const seedVal = document.getElementById("seed-input").value;
-    await callTreapApi('set_seed', { seed: seedVal });
+        const xOffset = i * treeWidth + 40;
+        const g = svg.append("g").attr("transform", `translate(${xOffset}, ${margin.top})`);
 
-    alert("Seed 已經設定為 " + seedVal);
-}
+        g.selectAll(".link")
+            .data(hierarchy.links())
+            .enter().append("path")
+            .attr("fill", "none").attr("stroke", "#dfe6e9").attr("stroke-width", 2.5)
+            .attr("d", d3.linkVertical().x(d => d.x).y(d => d.y));
 
-async function handleWorstSeed() {
+        const node = g.selectAll(".node")
+            .data(hierarchy.descendants())
+            .enter().append("g")
+            .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
-    const result = await callTreapApi('find_worst_seed');
-    if (result && result.success) {
-        document.getElementById("seed-input").value = result.data;
-    }
-}
+        node.append("circle")
+            .attr("r", 40)
+            .attr("fill", "#fff")
+            .attr("stroke", d => d.data.highlight1 ? "#ff7675" : "#74b9ff") // 高亮邏輯
+            .attr("stroke-width", 4);
 
-async function handleClear() {
-    if (!confirm("確定要重置嗎？")) return;
-    location.reload(); 
-}
+        node.append("text")
+            .attr("dy", "0.35em").attr("text-anchor", "middle")
+            .style("font-size", "24px").style("font-weight", "bold")
+            .text(d => d.data.val);
 
-function updateButtonStates() {
-    const hasNodes = document.querySelectorAll('.node').length > 0;
-    //const seedBtn = document.getElementById("set-seed-btn");
-    //const worstBtn = document.getElementById("worst-seed-btn");
-    if (seedBtn) seedBtn.disabled = hasNodes;
-    if (worstBtn) worstBtn.disabled = hasNodes;
-}
-
-function updateSpeed() {
-    animationSpeed = 2200 - parseInt(document.getElementById("speed-slider").value);
-}
-
-function showInput(type) {
-    const overlay = document.getElementById("input-overlay");
-    overlay.classList.remove("hidden");
-    const isQuery = (type === 'query');
-    document.getElementById("input-title").innerText = isQuery ? "Range Query" : (type === 'insert' ? "Insert Value" : "Remove Pos");
-    document.getElementById("single-input-group").classList.toggle("hidden", isQuery);
-    document.getElementById("range-input-group").classList.toggle("hidden", !isQuery);
-    document.getElementById("confirm-btn").onclick = () => isQuery ? handleQuery() : handleAction(type);
-}
-
-function hideInput() {
-    document.getElementById("input-overlay").classList.add("hidden");
-}
-
+        node.append("text")
+            .attr("dy", "-2.8em").attr("text-anchor", "middle")
+            .style("font-size", "10px").attr("fill", "#636e72")
+            .text(d => d.data.priority ? `P: ${d.data.priority.toFixed(2)}` : "");
+            
+        // 渲染 range_max
+        if (rootData.range_max !== undefined) {
+             node.append("text")
+                .attr("dy", "2.8em").attr("text-anchor", "middle")
+                .style("font-size", "12px").attr("fill", "#d63031")
+                .text(d => `Max: ${d.data.range_max}`);
+        }
+    });
+};
