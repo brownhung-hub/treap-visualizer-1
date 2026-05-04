@@ -1,102 +1,136 @@
-const margin = { top: 40, right: 20, bottom: 40, left: 20 };
-const container = document.getElementById("tree-container");
+window.actionQueue = [];       
+window.currentStepIdx = -1;    
+window.isPlaying = false;      
+window.autoPlayTimer = null;   
+window.animationSpeed = 1000; 
 
+window.onload = async () => {
+    updateSpeed();
+    await loadInitialArray();
+};
 
-const svg = d3.select("#tree-container")
-    .append("svg")
-    .attr("width", "100%")
-    .attr("height", "100%")
-    .append("g")
-    .attr("transform", `translate(0, ${margin.top})`);
+async function handleSetSeed() {
+    const seedVal = document.getElementById("seed-input").value;
 
-function updateTreap(treeData) {
-    const fullWidth = container.clientWidth;
-    const fullHeight = container.clientHeight;
+    const res = await callTreapApi('set_seed', { seed: parseInt(seedVal) });
+    if (res && res.success) {
+        console.log("Seed set successfully");
+        await loadInitialArray(); 
+    }
+}
+
+async function loadInitialArray() {
+    const statusEl = document.getElementById("status-display");
+    statusEl.innerText = "Building...";
+
+    const initNodes = [ { val: 4 }, { val: 8 }, { val: 7 } ];
+    const res = await callTreapApi('treap_build', { nodes: initNodes });
     
 
-    svg.selectAll("*").remove();
-
-    if (!treeData) return;
-
-
-    let realRootData = treeData;
-    if (treeData.isVirtual && treeData.children && treeData.children.length > 0) {
-        realRootData = treeData.children[0];
+    if (res && res.success && Array.isArray(res.data)) {
+        window.actionQueue = res.data;
+        window.currentStepIdx = window.actionQueue.length - 1; 
+        updateFrame();
+        statusEl.innerText = "Completed";
+    } else {
+        statusEl.innerText = "API 資料格式錯誤";
     }
+}
 
- 
-    const root = d3.hierarchy(realRootData, d => {
-        const kids = [];
-        if (d.left && !d.left.isEmpty) kids.push(d.left);
-        if (d.right && !d.right.isEmpty) kids.push(d.right);
-        return kids;
-    });
+async function callTreapApi(endpoint, payload = {}) {
+    try {
+        const response = await fetch(`http://127.0.0.1:5000/api/${endpoint}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        return await response.json();
+    } catch (error) {
+        console.error("無法連線至後端 API:", error);
+        document.getElementById("status-display").innerText = "連線失敗";
+        return null;
+    }
+}
 
-
-    const treeLayout = d3.tree().size([
-        fullWidth - margin.left - margin.right, 
-        fullHeight - margin.top - margin.bottom
-    ]);
-    treeLayout(root);
-
-
-    svg.selectAll(".link")
-        .data(root.links())
-        .enter()
-        .append("path")
-        .attr("class", "link")
-        .attr("fill", "none")
-        .attr("stroke", "#e0e0e0") 
-        .attr("stroke-width", 1.5)
-        .attr("d", d3.linkVertical()
-            .x(d => d.x + margin.left)
-            .y(d => d.y)
-        );
+function updateFrame() {
+    if (window.currentStepIdx >= 0 && window.currentStepIdx < window.actionQueue.length) {
+        const frame = window.actionQueue[window.currentStepIdx];
+        document.getElementById("status-display").innerText = frame.name || "運算中";
+        if (typeof window.updateTreap === "function") {
+            window.updateTreap(frame);
+        }
+    }
+}
 
 
-    const node = svg.selectAll(".node")
-        .data(root.descendants())
-        .enter()
-        .append("g")
-        .attr("class", "node")
-        .attr("transform", d => `translate(${d.x + margin.left},${d.y})`);
+function togglePlay() {
+    window.isPlaying = !window.isPlaying;
+    const btn = document.getElementById("play-pause-btn");
+    btn.innerText = window.isPlaying ? "Pause" : "Play";
+    if (window.isPlaying) startAutoPlay();
+    else clearTimeout(window.autoPlayTimer);
+}
 
+function startAutoPlay() {
+    if (!window.isPlaying) return;
+    if (window.currentStepIdx < window.actionQueue.length - 1) {
+        window.autoPlayTimer = setTimeout(() => {
+            stepNext();
+            startAutoPlay();
+        }, window.animationSpeed);
+    } else {
+        window.isPlaying = false;
+        document.getElementById("play-pause-btn").innerText = "Play";
+    }
+}
 
-    node.append("circle")
-        .attr("r", 28) 
-        .attr("fill", "#fff")
-        .attr("stroke", d => d.data.highlight1 ? "#ff7675" : "#74b9ff")
-        .attr("stroke-width", 2);
+function stepNext() {
+    if (window.currentStepIdx < window.actionQueue.length - 1) {
+        window.currentStepIdx++;
+        updateFrame();
+    }
+}
 
+function stepBack() {
+    if (window.currentStepIdx > 0) {
+        window.currentStepIdx--;
+        updateFrame();
+    }
+}
 
-    node.append("text")
-        .attr("dy", "-0.8em")
-        .attr("text-anchor", "middle")
-        .style("font-size", "10px")
-        .style("font-weight", "bold")
-        .text(d => `Val: ${d.data.val}`);
+function updateSpeed() {
+    window.animationSpeed = 2200 - parseInt(document.getElementById("speed-slider").value);
+}
 
+async function handleAction(type) {
+    const val = parseInt(document.getElementById("input-val").value);
+    const pos = parseInt(document.getElementById("input-pos").value) || 0;
+    
+    const res = await callTreapApi(`treap_${type}`, type === 'insert' ? { pos, val } : { pos });
+    if (res && res.success && Array.isArray(res.data)) {
+        window.actionQueue = res.data;
+        window.currentStepIdx = 0; 
+        updateFrame();
+    }
+}
 
-    node.append("text")
-        .attr("dy", "0.3em")
-        .attr("text-anchor", "middle")
-        .style("font-size", "18px")
-        .style("font-weight", "900")
-        .text(d => d.data.val);
-
-
-    node.append("text")
-        .attr("dy", "-1.8em")
-        .attr("text-anchor", "middle")
-        .style("font-size", "9px")
-        .attr("fill", "#636e72")
-        .text(d => d.data.priority ? `H: ${Number(d.data.priority).toFixed(2)}` : "");
-
-    node.append("text")
-        .attr("dy", "1.8em")
-        .attr("text-anchor", "middle")
-        .style("font-size", "10px")
-        .style("font-weight", "bold")
-        .attr("fill", "#d63031") 
-        .text(d => d.data.range_max !== undefined ? `Max: ${d.data.range_max}` : "");
+// 在 d3-logic.js 中修改
+async function handleClear() {
+    // 1. 呼叫後端清空資料的 API
+    const res = await callTreapApi('treap_clear'); 
+    
+    if (res && res.success) {
+        // 2. 清空前端的動畫佇列
+        window.actionQueue = [];
+        window.currentStepIdx = -1;
+        
+        // 3. 讓 SVG 畫面變空白
+        svg.selectAll("*").remove(); 
+        
+        // 4. 更新狀態顯示
+        document.getElementById("status-display").innerText = "已清空";
+        console.log("Treap 已成功清空");
+    } else {
+        location.reload(); 
+    }
 }
