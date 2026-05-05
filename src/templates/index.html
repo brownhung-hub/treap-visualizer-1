@@ -2,42 +2,76 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treap 視覺化展示</title>
+    <title>Treap視覺化 - NTU SE Project</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <div id="header">
-        Treap 視覺化展示 
-        <span class="status-badge" id="status-display">等待中...</span>
+        <div id="status-pill">目前狀態：<span id="status-display">Ready</span></div>
     </div>
 
     <div id="treap-container"></div>
 
-    <div id="controls">
-        <div class="playback-group">
-            <button id="play-pause-btn" class="btn-step" onclick="togglePlay()">Play</button>
-            <button class="btn-step" onclick="stepBack()">上一步</button>
-            <button class="btn-step" onclick="stepNext()">下一步</button>
-            <input type="range" id="speed-slider" min="200" max="2000" value="1000" onchange="updateSpeed()">
+    <div id="control-panel">
+
+        <div class="side-group">
+            <div class="input-unit">
+                <label>RANDOM SEED</label>
+                <div class="input-row">
+                    <input type="number" id="seed-input" value="67">
+                    <button class="btn-small" onclick="handleSetSeed()">Set</button>
+                </div>
+                <button class="btn-outline" onclick="handleWorstSeed()">Find Worst Seed</button>
+            </div>
         </div>
 
-        <span class="divider">|</span>
-
-        <div class="seed-group">
-            Seed: <input type="number" id="seed-input" value="67">
-            <button class="btn-seed" onclick="handleSetSeed()">Set Seed</button>
+  
+        <div class="center-group">
+            <div class="row">
+                <button class="btn-blue" onclick="handlePrev()">Step Back</button>
+                <button class="btn-play" onclick="handlePlay()">Play</button>
+                <button class="btn-blue" onclick="handleNext()">Step Next</button>
+            </div>
+            <div class="row speed-row">
+                <span>Speed:</span>
+                <input type="range" id="speed-slider" min="1" max="10" value="5" onchange="updateSpeed()">
+            </div>
         </div>
 
-        <span class="divider">|</span>
 
-        <div class="input-group">
-            位置 (Idx): <input type="number" id="input-pos" value="1">
-            數值 (Val): <input type="number" id="input-val" value="15">
-            <button class="btn-insert" onclick="handleAction('insert')">Insert</button>
-            <button class="btn-remove" onclick="handleAction('remove')">Remove</button>
-            <button class="btn-clear" onclick="handleClear()">Clear</button>
+        <div class="action-group">
+            <div class="input-unit">
+                <label>VAL / POS (1-based)</label>
+                <div class="input-row">
+                    <input type="number" id="insert-val" value="10">
+                    <input type="number" id="insert-pos" value="1">
+                </div>
+                <button class="btn-green" onclick="handleInsert()">Insert</button>
+            </div>
+
+            <div class="input-unit">
+                <label>POSITION</label>
+                <div class="input-row">
+                    <input type="number" id="remove-pos" value="1" class="wide-input">
+                </div>
+                <button class="btn-red" onclick="handleRemove()">Remove</button>
+            </div>
+
+            <div class="input-unit">
+                <label>RANGE (L ~ R)</label>
+                <div class="input-row">
+                    <input type="number" id="query-l" value="1">
+                    <input type="number" id="query-r" value="2">
+                </div>
+                <button class="btn-orange" onclick="handleQuery()">Query Range</button>
+            </div>
+
+            <div class="input-unit">
+                <label>&nbsp;</label>
+                <div class="input-row empty-row"></div>
+                <button class="btn-gray" onclick="handleClear()">Clear</button>
+            </div>
         </div>
     </div>
 
