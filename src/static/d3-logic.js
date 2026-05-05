@@ -1,136 +1,76 @@
-window.actionQueue = [];       
-window.currentStepIdx = -1;    
-window.isPlaying = false;      
-window.autoPlayTimer = null;   
-window.animationSpeed = 1000; 
+const container = document.getElementById("treap-container");
+const svg = d3.select("#treap-container").append("svg").attr("width", "100%").attr("height", "100%");
+const g = svg.append("g");
 
-window.onload = async () => {
-    updateSpeed();
-    await loadInitialArray();
-};
+svg.call(d3.zoom().on("zoom", (e) => g.attr("transform", e.transform)));
 
-async function handleSetSeed() {
-    const seedVal = document.getElementById("seed-input").value;
+function clearCanvas() { g.selectAll("*").remove(); }
 
-    const res = await callTreapApi('set_seed', { seed: parseInt(seedVal) });
-    if (res && res.success) {
-        console.log("Seed set successfully");
-        await loadInitialArray(); 
-    }
-}
+function renderTreap(stepData) {
+    if (!stepData || !stepData.data) { clearCanvas(); return; }
+    const treeData = stepData.data;
 
-async function loadInitialArray() {
-    const statusEl = document.getElementById("status-display");
-    statusEl.innerText = "Building...";
+    clearCanvas();
 
-    const initNodes = [ { val: 4 }, { val: 8 }, { val: 7 } ];
-    const res = await callTreapApi('treap_build', { nodes: initNodes });
-    
+    const width = container.offsetWidth;
+    const treeLayout = d3.tree().nodeSize([80, 100]);
 
-    if (res && res.success && Array.isArray(res.data)) {
-        window.actionQueue = res.data;
-        window.currentStepIdx = window.actionQueue.length - 1; 
-        updateFrame();
-        statusEl.innerText = "Completed";
-    } else {
-        statusEl.innerText = "API 資料格式錯誤";
-    }
-}
+    const root = d3.hierarchy(treeData, d => {
+        return (d.children || [d.left, d.right]).filter(x => x && !x.isEmpty);
+    });
 
-async function callTreapApi(endpoint, payload = {}) {
-    try {
-        const response = await fetch(`http://127.0.0.1:5000/api/${endpoint}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        return await response.json();
-    } catch (error) {
-        console.error("無法連線至後端 API:", error);
-        document.getElementById("status-display").innerText = "連線失敗";
-        return null;
-    }
-}
+    treeLayout(root);
 
-function updateFrame() {
-    if (window.currentStepIdx >= 0 && window.currentStepIdx < window.actionQueue.length) {
-        const frame = window.actionQueue[window.currentStepIdx];
-        document.getElementById("status-display").innerText = frame.name || "運算中";
-        if (typeof window.updateTreap === "function") {
-            window.updateTreap(frame);
-        }
-    }
-}
+    g.selectAll(".link")
+        .data(root.links().filter(d => d.source.data.node_id !== "vroot"))
+        .enter().append("path")
+        .attr("class", "link")
+        .attr("fill", "none")
+        .attr("stroke", "#cbd5e0")
+        .attr("stroke-width", 2)
+        .attr("d", d3.linkVertical().x(d => d.x).y(d => d.y));
 
 
-function togglePlay() {
-    window.isPlaying = !window.isPlaying;
-    const btn = document.getElementById("play-pause-btn");
-    btn.innerText = window.isPlaying ? "Pause" : "Play";
-    if (window.isPlaying) startAutoPlay();
-    else clearTimeout(window.autoPlayTimer);
-}
+    const nodes = g.selectAll(".node")
+        .data(root.descendants().filter(d => d.data.node_id !== "vroot"))
+        .enter().append("g")
+        .attr("class", "node")
+        .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
-function startAutoPlay() {
-    if (!window.isPlaying) return;
-    if (window.currentStepIdx < window.actionQueue.length - 1) {
-        window.autoPlayTimer = setTimeout(() => {
-            stepNext();
-            startAutoPlay();
-        }, window.animationSpeed);
-    } else {
-        window.isPlaying = false;
-        document.getElementById("play-pause-btn").innerText = "Play";
-    }
-}
+    nodes.append("circle")
+        .attr("r", 35) 
+        .attr("fill", d => d.data.highlight1 ? "#fff3cd" : "#fff")
+        .attr("stroke", d => d.data.highlight2 ? "#e53e3e" : "#3498db")
+        .attr("stroke-width", 2);
 
-function stepNext() {
-    if (window.currentStepIdx < window.actionQueue.length - 1) {
-        window.currentStepIdx++;
-        updateFrame();
-    }
-}
+    nodes.append("text")
+        .attr("dy", "-1.8em")
+        .attr("text-anchor", "middle")
+        .style("font-size", "10px")
+        .style("font-weight", "bold")
+        .text(d => `Val: ${d.data.val}`);
 
-function stepBack() {
-    if (window.currentStepIdx > 0) {
-        window.currentStepIdx--;
-        updateFrame();
-    }
-}
+    nodes.append("text")
+        .attr("dy", "-0.8em")
+        .attr("text-anchor", "middle")
+        .style("font-size", "9px")
+        .style("fill", "#718096")
+        .text(d => `H: ${d.data.priority || 0}`);
 
-function updateSpeed() {
-    window.animationSpeed = 2200 - parseInt(document.getElementById("speed-slider").value);
-}
+    nodes.append("text")
+        .attr("dy", "0.4em")
+        .attr("text-anchor", "middle")
+        .style("font-size", "18px")
+        .style("font-weight", "900") 
+        .text(d => d.data.val);
 
-async function handleAction(type) {
-    const val = parseInt(document.getElementById("input-val").value);
-    const pos = parseInt(document.getElementById("input-pos").value) || 0;
-    
-    const res = await callTreapApi(`treap_${type}`, type === 'insert' ? { pos, val } : { pos });
-    if (res && res.success && Array.isArray(res.data)) {
-        window.actionQueue = res.data;
-        window.currentStepIdx = 0; 
-        updateFrame();
-    }
-}
-
-// 在 d3-logic.js 中修改
-async function handleClear() {
-    // 1. 呼叫後端清空資料的 API
-    const res = await callTreapApi('treap_clear'); 
-    
-    if (res && res.success) {
-        // 2. 清空前端的動畫佇列
-        window.actionQueue = [];
-        window.currentStepIdx = -1;
-        
-        // 3. 讓 SVG 畫面變空白
-        svg.selectAll("*").remove(); 
-        
-        // 4. 更新狀態顯示
-        document.getElementById("status-display").innerText = "已清空";
-        console.log("Treap 已成功清空");
-    } else {
-        location.reload(); 
-    }
+    nodes.append("text")
+        .attr("dy", "1.8em")
+        .attr("text-anchor", "middle")
+        .style("font-size", "10px")
+        .style("font-weight", "bold")
+        .style("fill", "#e53e3e") 
+        .text(d => d.data.range_max !== undefined ? `Max: ${d.data.range_max}` : "");
+    const offset = width / 2;
+    g.transition().duration(300).attr("transform", `translate(${offset}, 80)`);
 }
