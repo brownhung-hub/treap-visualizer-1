@@ -151,7 +151,7 @@ class Treap():
         _roots.append(self.root)
 
     def query(self, l, r): # root will not change, -> int
-        if not self.root: raise ValueError("Tree is empty")
+        if not self.root: raise ValueError("Treap is empty")
         if l > r: raise ValueError("l must be <= r")
         if l <= 0 or r > self.root.sz: raise ValueError("Index out of bounds")
         a, b= spilt_with_log(self.root, l-1)
@@ -171,7 +171,7 @@ class Treap():
         self.root = merge_with_log(a, merge_with_log(newnode, b))
 
     def remove(self, k): # -> void
-        if not self.root: raise ValueError("Tree is empty")
+        if not self.root: raise ValueError("Treap is empty")
         if k <= 0 or k > self.root.sz: raise ValueError("Index out of bounds")
         a,b= spilt_with_log(self.root, k-1)
         b,c= spilt_with_log(b,1)
@@ -191,24 +191,26 @@ class Treap():
         log.append({"name":"initialize","data":print_treap(_roots)})
     
     def clear(self):
+        self.root=None
         _roots.clear() # no memory free
+        _roots.append(self.root)
         log.append({"name":"clear","data":print_treap(_roots)})
 
 def flush_log():
     global log
     # return log
     # print(json.dumps(log, indent=4)) # for debugging
-    res, log = log, [] # for !debug
-    return res # for !debug
+    res, log = log, []
+    return res
 
 if __name__=='__main__':
     t = Treap()
     t.build([4,8,7,6,3])
-    print(flush_log())
+    flush_log()
     t.clear()
     print(flush_log())
-    # t.insert(2,100)
-    # flush_log()
+    t.insert(0,100)
+    print(flush_log())
     # print("--------------------------")
     # t.remove(2)
     # flush_log()
