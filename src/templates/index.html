@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
-    <title>Treap視覺化 - NTU SE Project</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Treap視覺化</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
+
 <body>
     <div id="header">
         <div id="status-pill">目前狀態：<span id="status-display">Ready</span></div>
@@ -26,7 +28,6 @@
             </div>
         </div>
 
-  
         <div class="center-group">
             <div class="row">
                 <button class="btn-blue" onclick="handlePrev()">Step Back</button>
@@ -38,7 +39,6 @@
                 <input type="range" id="speed-slider" min="1" max="10" value="5" onchange="updateSpeed()">
             </div>
         </div>
-
 
         <div class="action-group">
             <div class="input-unit">
@@ -75,7 +75,8 @@
         </div>
     </div>
 
-    <script src="d3-logic.js"></script>
-    <script src="app.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/d3-logic.js') }}"></script>
 </body>
+
 </html>
