@@ -1,67 +1,172 @@
-const container = document.getElementById('treap-container');
-const svg = d3.select("#treap-container").append("svg")
-    .attr("width", "100%")
-    .attr("height", "100%");
-const margin = { top: 60, right: 20, bottom: 20, left: 20 };
 
-window.updateTreap = function(frame) {
-    svg.selectAll("*").remove();
-    if (!frame || !frame.data) return;
+window.actionQueue = [];
+window.currentStepIdx = -1;  
+window.animationSpeed = 500; 
 
-    const roots = frame.data.children || []; // 取得分割後的 Treap 陣列
-    const fullWidth = container.clientWidth;
-    const fullHeight = container.clientHeight;
-    const treeWidth = fullWidth / (roots.length || 1);
+async function callTreapApi(endpoint, method = 'POST', data = {}) {
+    const options = {
+        method: method,
+        headers: { 'Content-Type': 'application/json' }
+    };
+    if (method === 'POST') options.body = JSON.stringify(data);
 
-    roots.forEach((rootData, i) => {
-        if (!rootData || rootData.isEmpty) return;
-
-        const hierarchy = d3.hierarchy(rootData, d => {
-            const kids = [];
-            if (d.left && !d.left.isEmpty) kids.push(d.left);
-            if (d.right && !d.right.isEmpty) kids.push(d.right);
-            return kids;
-        });
-
-        const treeLayout = d3.tree().size([treeWidth - 80, fullHeight - 160]);
-        treeLayout(hierarchy);
-
-        const xOffset = i * treeWidth + 40;
-        const g = svg.append("g").attr("transform", `translate(${xOffset}, ${margin.top})`);
-
-        g.selectAll(".link")
-            .data(hierarchy.links())
-            .enter().append("path")
-            .attr("fill", "none").attr("stroke", "#dfe6e9").attr("stroke-width", 2.5)
-            .attr("d", d3.linkVertical().x(d => d.x).y(d => d.y));
-
-        const node = g.selectAll(".node")
-            .data(hierarchy.descendants())
-            .enter().append("g")
-            .attr("transform", d => `translate(${d.x}, ${d.y})`);
-
-        node.append("circle")
-            .attr("r", 40)
-            .attr("fill", "#fff")
-            .attr("stroke", d => d.data.highlight1 ? "#ff7675" : "#74b9ff") // 高亮邏輯
-            .attr("stroke-width", 4);
-
-        node.append("text")
-            .attr("dy", "0.35em").attr("text-anchor", "middle")
-            .style("font-size", "24px").style("font-weight", "bold")
-            .text(d => d.data.val);
-
-        node.append("text")
-            .attr("dy", "-2.8em").attr("text-anchor", "middle")
-            .style("font-size", "10px").attr("fill", "#636e72")
-            .text(d => d.data.priority ? `P: ${d.data.priority.toFixed(2)}` : "");
-            
-        // 渲染 range_max
-        if (rootData.range_max !== undefined) {
-             node.append("text")
-                .attr("dy", "2.8em").attr("text-anchor", "middle")
-                .style("font-size", "12px").attr("fill", "#d63031")
-                .text(d => `Max: ${d.data.range_max}`);
+    try {
+        const response = await fetch(`http://127.0.0.1:5000/api/${endpoint}`, options);
+        const res = await response.json();
+        
+        if (!response.ok || !res.success) {
+            document.getElementById("status-display").innerText = "Error: " + (res.data || "Unknown Error");
+            return null;
         }
+        return res;
+    } catch (err) {
+        document.getElementById("status-display").innerText = "伺服器連線中斷";
+        return null;
+    }
+}
+
+
+async function handleInsert() {
+    const val = parseInt(document.getElementById("insert-val").value);
+    const pos = parseInt(document.getElementById("insert-pos").value);
+    if (isNaN(val) || isNaN(pos)) return;
+
+
+    const res = await callTreapApi('treap_insert', 'POST', { 
+        pos: pos - 1, 
+        val: val 
     });
-};
+
+    if (res && res.success) {
+        window.actionQueue = res.data; 
+        window.currentStepIdx = 0;
+        updateFrame();
+        document.getElementById("status-display").innerText = `Ready (Inserted ${val})`;
+    }
+}
+
+async function handleRemove() {
+    const pos = parseInt(document.getElementById("remove-pos").value);
+    if (isNaN(pos)) return;
+
+
+    const res = await callTreapApi('treap_remove', 'POST', { pos: pos });
+
+    if (res && res.success) {
+        window.actionQueue = res.data;
+        window.currentStepIdx = 0;
+        updateFrame();
+        document.getElementById("status-display").innerText = `Ready (Removed pos ${pos})`;
+    }
+}
+
+async function handleQuery() {
+    const l = parseInt(document.getElementById("query-l").value);
+    const r = parseInt(document.getElementById("query-r").value);
+    if (isNaN(l) || isNaN(r)) return;
+
+
+    const res = await callTreapApi('query_range', 'POST', { l: l, r: r });
+
+    if (res && res.success) {
+        window.actionQueue = res.data;
+        window.currentStepIdx = 0;
+        updateFrame();
+
+    }
+}
+
+async function handleClear() {
+    const res = await callTreapApi('treap_clear', 'GET');
+    if (res && res.success) {
+        window.actionQueue = [];
+        window.currentStepIdx = -1;
+        
+        if (typeof clearCanvas === "function") clearCanvas();
+        
+        document.getElementById("status-display").innerText = "Ready (Cleared & Initialized)";
+        
+        console.log("Treap has been cleared safely.");
+    }
+}
+
+
+
+function updateFrame() {
+    const currentStep = window.actionQueue[window.currentStepIdx];
+    if (currentStep) {
+
+        renderTreap(currentStep); 
+        
+        const statusText = `Step ${window.currentStepIdx + 1}/${window.actionQueue.length}: ${currentStep.name}`;
+        document.getElementById("status-display").innerText = statusText;
+    }
+}
+
+function handleNext() {
+    if (window.currentStepIdx < window.actionQueue.length - 1) {
+        window.currentStepIdx++;
+        updateFrame();
+    }
+}
+
+function handlePrev() {
+    if (window.currentStepIdx > 0) {
+        window.currentStepIdx--;
+        updateFrame();
+    }
+}
+
+let playTimer = null;
+function handlePlay() {
+    const playBtn = document.querySelector(".btn-play");
+    
+    if (playTimer) {
+        clearInterval(playTimer);
+        playTimer = null;
+        playBtn.innerText = "Play";
+        playBtn.style.background = "#2ecc71";
+    } else {
+        playBtn.innerText = "Pause";
+        playBtn.style.background = "#f1c40f";
+        playTimer = setInterval(() => {
+            if (window.currentStepIdx < window.actionQueue.length - 1) {
+                handleNext();
+            } else {
+                handlePlay(); 
+            }
+        }, window.animationSpeed);
+    }
+}
+
+function updateSpeed() {
+    const sliderVal = document.getElementById("speed-slider").value;
+
+    window.animationSpeed = (11 - sliderVal) * 150; 
+
+    if (playTimer) {
+        clearInterval(playTimer);
+        playTimer = setInterval(() => {
+            if (window.currentStepIdx < window.actionQueue.length - 1) {
+                handleNext();
+            } else {
+                handlePlay();
+            }
+        }, window.animationSpeed);
+    }
+}
+
+
+async function handleSetSeed() {
+    const seed = parseInt(document.getElementById("seed-input").value);
+    await callTreapApi('set_seed', 'POST', { seed });
+    document.getElementById("status-display").innerText = `Seed set to ${seed}`;
+}
+
+async function handleWorstSeed() {
+    const res = await callTreapApi('find_worst_seed', 'GET');
+    if (res && res.success) {
+        document.getElementById("seed-input").value = res.data;
+        handleSetSeed();
+    }
+}
