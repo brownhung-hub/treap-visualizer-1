@@ -16,13 +16,19 @@ function renderTreap(stepData) {
     const treeLayout = d3.tree().nodeSize([80, 100]);
 
     const root = d3.hierarchy(treeData, d => {
-        return (d.children || [d.left, d.right]).filter(x => x && !x.isEmpty);
+        if (!d || d.isEmpty) {
+            return null;
+        }
+        return d.children || [d.left, d.right];
     });
 
     treeLayout(root);
 
     g.selectAll(".link")
-        .data(root.links().filter(d => d.source.data.node_id !== "vroot"))
+        .data(root.links().filter(d => 
+            d.source.data && d.source.data.node_id !== "vroot" && 
+            d.target.data && !d.target.data.isEmpty 
+        ))
         .enter().append("path")
         .attr("class", "link")
         .attr("fill", "none")
@@ -30,16 +36,17 @@ function renderTreap(stepData) {
         .attr("stroke-width", 2)
         .attr("d", d3.linkVertical().x(d => d.x).y(d => d.y));
 
-
     const nodes = g.selectAll(".node")
-        .data(root.descendants().filter(d => d.data.node_id !== "vroot"))
+        .data(root.descendants().filter(d =>
+            d.data && d.data.node_id !== "vroot" && !d.data.isEmpty 
+        ))
         .enter().append("g")
         .attr("class", "node")
         .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
     nodes.append("circle")
-        .attr("r", 35) 
-        .attr("fill", d => d.data.highlight1 ? "#fff3cd" : "#fff")
+        .attr("r", 35)
+        .attr("fill", d => d.data.highlight1 ? "#fff3cd" : "#fff") 
         .attr("stroke", d => d.data.highlight2 ? "#e53e3e" : "#3498db")
         .attr("stroke-width", 2);
 
@@ -61,7 +68,7 @@ function renderTreap(stepData) {
         .attr("dy", "0.4em")
         .attr("text-anchor", "middle")
         .style("font-size", "18px")
-        .style("font-weight", "900") 
+        .style("font-weight", "900")
         .text(d => d.data.val);
 
     nodes.append("text")
@@ -69,8 +76,9 @@ function renderTreap(stepData) {
         .attr("text-anchor", "middle")
         .style("font-size", "10px")
         .style("font-weight", "bold")
-        .style("fill", "#e53e3e") 
+        .style("fill", "#e53e3e")
         .text(d => d.data.range_max !== undefined ? `Max: ${d.data.range_max}` : "");
+
     const offset = width / 2;
     g.transition().duration(300).attr("transform", `translate(${offset}, 80)`);
 }
