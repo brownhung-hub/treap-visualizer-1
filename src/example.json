@@ -1,0 +1,1057 @@
+[
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 8,
+                    "highlight2": true,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 8,
+                        "left": {
+                            "node_id": "132380957076768",
+                            "val": 8,
+                            "priority": 0.364643,
+                            "range_max": 8,
+                            "left": {
+                                "node_id": "132380957075424",
+                                "val": 4,
+                                "priority": 0.072073,
+                                "range_max": 4,
+                                "left": null,
+                                "right": null
+                            },
+                            "right": {
+                                "node_id": "132380957076768_null",
+                                "isEmpty": true
+                            }
+                        },
+                        "right": {
+                            "node_id": "132380957076912_null",
+                            "isEmpty": true
+                        }
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 8,
+                    "highlight2": true,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 8,
+                        "highlight1": true,
+                        "left": {
+                            "node_id": "132380957076768",
+                            "val": 8,
+                            "priority": 0.364643,
+                            "range_max": 8,
+                            "highlight1": true,
+                            "left": {
+                                "node_id": "132380957075424",
+                                "val": 4,
+                                "priority": 0.072073,
+                                "range_max": 4,
+                                "highlight1": true,
+                                "left": null,
+                                "right": null
+                            },
+                            "right": {
+                                "node_id": "132380957076768_null",
+                                "isEmpty": true
+                            }
+                        },
+                        "right": {
+                            "node_id": "132380957076912_null",
+                            "isEmpty": true
+                        }
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 8,
+                        "highlight1": true,
+                        "highlight2": true,
+                        "left": {
+                            "node_id": "132380957076768",
+                            "val": 8,
+                            "priority": 0.364643,
+                            "range_max": 8,
+                            "highlight1": true,
+                            "left": {
+                                "node_id": "132380957075424",
+                                "val": 4,
+                                "priority": 0.072073,
+                                "range_max": 4,
+                                "highlight1": true,
+                                "left": null,
+                                "right": null
+                            },
+                            "right": {
+                                "node_id": "132380957076768_null",
+                                "isEmpty": true
+                            }
+                        },
+                        "right": {
+                            "node_id": "132380957076912_null",
+                            "isEmpty": true
+                        }
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 8,
+                        "highlight2": true,
+                        "left": {
+                            "node_id": "132380957076768",
+                            "val": 8,
+                            "priority": 0.364643,
+                            "range_max": 8,
+                            "highlight1": true,
+                            "left": {
+                                "node_id": "132380957075424",
+                                "val": 4,
+                                "priority": 0.072073,
+                                "range_max": 4,
+                                "highlight1": true,
+                                "left": null,
+                                "right": null
+                            },
+                            "right": {
+                                "node_id": "132380957076768_null",
+                                "isEmpty": true
+                            }
+                        },
+                        "right": {
+                            "node_id": "132380957076912_null",
+                            "isEmpty": true
+                        }
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 8,
+                        "left": {
+                            "node_id": "132380957076768",
+                            "val": 8,
+                            "priority": 0.364643,
+                            "range_max": 8,
+                            "highlight1": true,
+                            "highlight2": true,
+                            "left": {
+                                "node_id": "132380957075424",
+                                "val": 4,
+                                "priority": 0.072073,
+                                "range_max": 4,
+                                "highlight1": true,
+                                "left": null,
+                                "right": null
+                            },
+                            "right": {
+                                "node_id": "132380957076768_null",
+                                "isEmpty": true
+                            }
+                        },
+                        "right": {
+                            "node_id": "132380957076912_null",
+                            "isEmpty": true
+                        }
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 8,
+                        "left": {
+                            "node_id": "132380957076768",
+                            "val": 8,
+                            "priority": 0.364643,
+                            "range_max": 8,
+                            "highlight1": true,
+                            "highlight2": true,
+                            "left": {
+                                "node_id": "132380957075424",
+                                "val": 4,
+                                "priority": 0.072073,
+                                "range_max": 4,
+                                "highlight1": true,
+                                "left": null,
+                                "right": null
+                            },
+                            "right": {
+                                "node_id": "132380957076768_null",
+                                "isEmpty": true
+                            }
+                        },
+                        "right": {
+                            "node_id": "132380957076912_null",
+                            "isEmpty": true
+                        }
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 8,
+                        "left": {
+                            "node_id": "132380957076768",
+                            "val": 8,
+                            "priority": 0.364643,
+                            "range_max": 8,
+                            "highlight1": true,
+                            "left": {
+                                "node_id": "132380957075424",
+                                "val": 4,
+                                "priority": 0.072073,
+                                "range_max": 4,
+                                "highlight1": true,
+                                "left": null,
+                                "right": null
+                            },
+                            "right": {
+                                "node_id": "132380957076768_null",
+                                "isEmpty": true
+                            }
+                        },
+                        "right": {
+                            "node_id": "132380957076912_null",
+                            "isEmpty": true
+                        }
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "finish spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "highlight1": true,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "highlight2": true,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "highlight1": true,
+                    "highlight2": true,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "highlight1": true,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "highlight2": true,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "highlight1": true,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "highlight1": true,
+                        "highlight2": true,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "highlight1": true,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "finish spilt",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "highlight1": true,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "merge",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "highlight1": true,
+                    "highlight2": true,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "finish merge",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "highlight1": true,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "merge",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "highlight1": true,
+                    "highlight2": true,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "highlight2": true,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "merge",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "highlight1": true,
+                    "highlight2": true,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "highlight2": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "merge",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957076768",
+                    "val": 8,
+                    "priority": 0.364643,
+                    "range_max": 8,
+                    "highlight1": true,
+                    "highlight2": true,
+                    "left": {
+                        "node_id": "132380957075424",
+                        "val": 4,
+                        "priority": 0.072073,
+                        "range_max": 4,
+                        "highlight1": true,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957076768_null",
+                        "isEmpty": true
+                    }
+                },
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 7,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 7,
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "finish merge",
+        "data": {
+            "isVirtual": true,
+            "node_id": "vroot",
+            "children": [
+                {
+                    "node_id": "132380957077152",
+                    "val": 6,
+                    "priority": 0.866951,
+                    "range_max": 8,
+                    "left": {
+                        "node_id": "132380957076912",
+                        "val": 7,
+                        "priority": 0.856688,
+                        "range_max": 8,
+                        "left": {
+                            "node_id": "132380957076768",
+                            "val": 8,
+                            "priority": 0.364643,
+                            "range_max": 8,
+                            "highlight1": true,
+                            "left": {
+                                "node_id": "132380957075424",
+                                "val": 4,
+                                "priority": 0.072073,
+                                "range_max": 4,
+                                "highlight1": true,
+                                "left": null,
+                                "right": null
+                            },
+                            "right": {
+                                "node_id": "132380957076768_null",
+                                "isEmpty": true
+                            }
+                        },
+                        "right": {
+                            "node_id": "132380957076912_null",
+                            "isEmpty": true
+                        }
+                    },
+                    "right": {
+                        "node_id": "132380957077392",
+                        "val": 3,
+                        "priority": 0.61694,
+                        "range_max": 3,
+                        "left": null,
+                        "right": null
+                    }
+                }
+            ]
+        }
+    }
+]

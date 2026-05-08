@@ -1,0 +1,14 @@
+# py
+__pycache__/
+*.py[cod]
+
+# venv
+test/
+.venv/
+venv/
+
+# ide
+.vscode/
+.idea/
+.DS_store
+tempCodeRunnerFile.py

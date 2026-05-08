@@ -1,0 +1,34 @@
+body { font-family: "Segoe UI", sans-serif; margin: 0; background: #fff; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+#header { padding: 15px; display: flex; justify-content: center; }
+#status-pill { background: #fff; padding: 6px 20px; border-radius: 20px; font-weight: bold; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+#treap-container { flex: 1; }
+
+#control-panel { height: 150px; border-top: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; background: #fff; }
+
+
+.action-group { display: flex; gap: 12px; align-items: flex-end; }
+.input-unit { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+
+.input-unit label { 
+    font-size: 11px; color: #888; font-weight: bold; text-align: center; width: 100%; display: block; 
+}
+
+.input-row { display: flex; gap: 4px; height: 32px; justify-content: center; }
+.empty-row { height: 32px; }
+
+
+input[type="number"] { width: 42px; height: 26px; border: 1px solid #ddd; border-radius: 4px; text-align: center; }
+.wide-input { width: 90px !important; } 
+
+
+button { border-radius: 5px; border: none; font-weight: bold; color: #fff; cursor: pointer; }
+.btn-green { background: #58b15b; width: 105px; padding: 10px 0; }
+.btn-red { background: #f35448; width: 105px; padding: 10px 0; }
+.btn-orange { background: #ff9f10; width: 105px; padding: 10px 0; }
+.btn-gray { background: #95a5a6; width: 80px; padding: 10px 0; }
+.btn-blue { background: #3498db; padding: 8px 12px; }
+.btn-play { background: #2ecc71; padding: 8px 20px; min-width: 70px; }
+.btn-small { background: #f0f0f0; color: #333; padding: 4px 8px; border: 1px solid #ddd; }
+.btn-outline { background: transparent; border: 1px solid #ddd; color: #e91e63; font-size: 10px; padding: 3px; margin-top: 5px; }

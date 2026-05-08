@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Treap視覺化</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <div id="status-pill">目前狀態：<span id="status-display">Ready</span></div>
+    </div>
+
+    <div id="treap-container"></div>
+
+    <div id="control-panel">
+
+        <div class="side-group">
+            <div class="input-unit">
+                <label>RANDOM SEED</label>
+                <div class="input-row">
+                    <input type="number" id="seed-input" value="67">
+                    <button class="btn-small" onclick="handleSetSeed()">Set</button>
+                </div>
+                <button class="btn-outline" onclick="handleWorstSeed()">Find Worst Seed</button>
+            </div>
+        </div>
+
+        <div class="center-group">
+            <div class="row">
+                <button class="btn-blue" onclick="handlePrev()">Step Back</button>
+                <button class="btn-play" onclick="handlePlay()">Play</button>
+                <button class="btn-blue" onclick="handleNext()">Step Next</button>
+            </div>
+            <div class="row speed-row">
+                <span>Speed:</span>
+                <input type="range" id="speed-slider" min="1" max="10" value="5" onchange="updateSpeed()">
+            </div>
+        </div>
+
+        <div class="action-group">
+
+            <div class="input-unit">
+    	        <label>BUILD (Array: 1,2,3)</label>
+    		<div class="input-row">
+       		    <input type="text" id="build-vals" value="4,8,7" style="width: 120px; text-align: center; border: 1px solid #ddd; border-radius: 4px;">
+   		</div>
+    		<button class="btn-blue" style="width: 125px; padding: 10px 0; background: #8e44ad;" onclick="handleBuild()">Build Treap</button>
+	    </div>
+
+            <div class="input-unit">
+                <label>VAL / POS (1-based)</label>
+                <div class="input-row">
+                    <input type="number" id="insert-val" value="10">
+                    <input type="number" id="insert-pos" value="1">
+                </div>
+                <button class="btn-green" onclick="handleInsert()">Insert</button>
+            </div>
+
+            <div class="input-unit">
+                <label>POSITION</label>
+                <div class="input-row">
+                    <input type="number" id="remove-pos" value="1" class="wide-input">
+                </div>
+                <button class="btn-red" onclick="handleRemove()">Remove</button>
+            </div>
+
+            <div class="input-unit">
+                <label>RANGE (L ~ R)</label>
+                <div class="input-row">
+                    <input type="number" id="query-l" value="1">
+                    <input type="number" id="query-r" value="2">
+                </div>
+                <button class="btn-orange" onclick="handleQuery()">Query Range</button>
+            </div>
+
+            <div class="input-unit">
+                <label>&nbsp;</label>
+                <div class="input-row empty-row"></div>
+                <button class="btn-gray" onclick="handleClear()">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/d3-logic.js') }}"></script>
+</body>
+
+</html>
