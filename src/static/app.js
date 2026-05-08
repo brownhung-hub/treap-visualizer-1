@@ -65,14 +65,12 @@ async function handleQuery() {
     const r = parseInt(document.getElementById("query-r").value);
     if (isNaN(l) || isNaN(r)) return;
 
-
-    const res = await callTreapApi('query_range', 'POST', { l: l, r: r });
+    const res = await callTreapApi('treap_query', 'POST', { l: l, r: r });
 
     if (res && res.success) {
         window.actionQueue = res.data;
         window.currentStepIdx = 0;
         updateFrame();
-
     }
 }
 
@@ -95,10 +93,14 @@ async function handleClear() {
 function updateFrame() {
     const currentStep = window.actionQueue[window.currentStepIdx];
     if (currentStep) {
-
         renderTreap(currentStep); 
         
-        const statusText = `Step ${window.currentStepIdx + 1}/${window.actionQueue.length}: ${currentStep.name}`;
+        let statusText = `Step ${window.currentStepIdx + 1}/${window.actionQueue.length}: ${currentStep.name}`;
+        
+        if (currentStep.query_result !== undefined) {
+            statusText += ` -> Result (Max): ${currentStep.query_result}`;
+        }
+        
         document.getElementById("status-display").innerText = statusText;
     }
 }
