@@ -172,3 +172,31 @@ async function handleWorstSeed() {
         handleSetSeed();
     }
 }
+
+async function handleBuild() {
+    const inputVal = document.getElementById("build-vals").value;
+    
+    const vals = inputVal.split(',')
+                         .map(v => parseInt(v.trim()))
+                         .filter(v => !isNaN(v));
+
+    if (vals.length === 0) {
+        document.getElementById("status-display").innerText = "請輸入有效的數字 (例如: 4,8,7)";
+        return;
+    }
+
+    const nodesData = vals.map(v => ({ val: v }));
+
+    const res = await callTreapApi('treap_build', 'POST', { nodes: nodesData });
+
+    if (res && res.success) {
+        window.actionQueue = res.data; 
+        window.currentStepIdx = 0;
+        updateFrame();
+        document.getElementById("status-display").innerText = `Ready (已建立 ${vals.length} 個節點)`;
+    }
+}
+
+
+
+
