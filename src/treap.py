@@ -130,7 +130,7 @@ def spilt_with_log(cur, k):
     log.append({"name":"finish spilt","data":print_treap(_roots)})
     reset_hili(a)
     reset_hili(b)
-    # log.append({"name":"finish spilt","data":print_treap(_roots)})
+    log.append({"name":"finish spilt","data":print_treap(_roots)})
     return a,b
 
 def merge_with_log(a,b):
@@ -142,6 +142,7 @@ def merge_with_log(a,b):
     _roots.append(ret)
     log.append({"name":"finish merge","data":print_treap(_roots)})
     reset_hili(ret)
+    log.append({"name":"finish merge","data":print_treap(_roots)})
     return ret
 
 class Treap():
