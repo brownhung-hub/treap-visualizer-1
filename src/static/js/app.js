@@ -33,7 +33,7 @@ async function handleInsert() {
 
 
     const res = await callTreapApi('treap_insert', 'POST', { 
-        pos: pos - 1, 
+        pos: pos,
         val: val 
     });
 

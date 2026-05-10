@@ -1,6 +1,6 @@
 import random, json
 
-random.seed(48763)
+random.seed(67)
 _roots=[]
 log=[]
 class node():
@@ -26,15 +26,17 @@ class node():
 
 def merge(a:node, b:node):
     global log, _roots
-    log.append({"name":"merge","data":print_treap(_roots, [a,b])})
     if not a or not b:
         return a or b
+    log.append({"name":"merge: start","data":print_treap(_roots, [a,b])})
     if a.hid > b.hid:
         # no push
+        log.append({"name":"merge: left is top","data":print_treap(_roots, [a,b])})
         a.r = merge(a.r, b)
         a.pull()
         return a
     else:
+        log.append({"name":"merge: right is top","data":print_treap(_roots, [a,b])})
         b.l= merge(a, b.l)
         b.pull()
         return b
@@ -43,10 +45,10 @@ def merge(a:node, b:node):
 # highlight left side
 def spilt(cur: node, k:int): # -> a, b
     global log, _roots
-    log.append({"name":"spilt","data":print_treap(_roots, [cur])})
     if not cur:
         return None, None
 
+    log.append({"name":"spilt: start","data":print_treap(_roots, [cur])})
     if k == 0: 
         return None, cur
     
@@ -55,7 +57,7 @@ def spilt(cur: node, k:int): # -> a, b
     if lsz >= k:
         cur.highlight=-1
         if cur.l: cur.l.highlight=1
-        log.append({"name":"spilt","data":print_treap(_roots, [cur])})
+        log.append({"name":"spilt: exclude self, go left","data":print_treap(_roots, [cur])})
 
         a, cur.l = spilt(cur.l, k)
         cur.pull()
@@ -63,7 +65,7 @@ def spilt(cur: node, k:int): # -> a, b
     else:
         cur.highlight=1
         if cur.r: cur.r.highlight=-1
-        log.append({"name":"spilt","data":print_treap(_roots, [cur])})
+        log.append({"name":"spilt: include self, go right","data":print_treap(_roots, [cur])})
 
         cur.r, b = spilt(cur.r, k - lsz - 1)
         cur.pull()
@@ -121,28 +123,35 @@ def print_treap(roots, cur=None):
     }
     return vroot
 
-def spilt_with_log(cur, k):
+def spilt_with_log(cur, l,r):
     global _roots, log
+    k=r-l+1
+    log.append({"name":f"Spilt with left = [ {l}, {r} ] -> size {k}","data":print_treap(_roots)})
     a,b=spilt(cur,k)
     _roots.pop()
     _roots.append(a)
     _roots.append(b)
-    log.append({"name":"finish spilt","data":print_treap(_roots)})
+    log.append({"name":"Finish spilt","data":print_treap(_roots)})
     reset_hili(a)
     reset_hili(b)
-    log.append({"name":"finish spilt","data":print_treap(_roots)})
+    # log.append({"name":"finish spilt","data":print_treap(_roots)})
     return a,b
 
 def merge_with_log(a,b):
     global _roots, log
-    if a: a.highlight=1
+    if a and b: 
+        a.highlight=1
+        b.highlight=1
+        log.append({"name":f"Merge two treaps","data":print_treap(_roots)})
+        b.highlight=0
     ret=merge(a,b)
     _roots.pop()
     _roots.pop()
     _roots.append(ret)
-    log.append({"name":"finish merge","data":print_treap(_roots)})
-    reset_hili(ret)
-    log.append({"name":"finish merge","data":print_treap(_roots)})
+    if a and b:
+        log.append({"name":"Finish merge","data":print_treap(_roots)})
+        reset_hili(ret)
+    log.append({"name":"Finish merge","data":print_treap(_roots)})
     return ret
 
 class Treap():
@@ -155,32 +164,35 @@ class Treap():
         if not self.root: raise ValueError("Treap is empty")
         if l > r: raise ValueError("l must be <= r")
         if l <= 0 or r > self.root.sz: raise ValueError("Index out of bounds")
-        a, b= spilt_with_log(self.root, l-1)
-        b, c= spilt_with_log(b, r-l+1)
+        a, b= spilt_with_log(self.root, 1, l-1)
+        b, c= spilt_with_log(b, l, r)
         ans = b.mx
         merge_with_log(a, merge_with_log(b,c))
         return ans
 
     def insert(self, k, val): # -> void
+        print(f"insert: {k} {val}")
         current_sz = self.root.sz if self.root else 0
         if k < 0 or k > current_sz: raise ValueError("Index out of bounds")
-        a,b=spilt_with_log(self.root, k)
+        a,b=spilt_with_log(self.root, 1, k)
         newnode=node(val)
         tmp=_roots.pop()
         _roots.append(newnode)
         _roots.append(tmp)
+        log.append({"name":"Add node {val}","data":print_treap(_roots)})
         self.root = merge_with_log(a, merge_with_log(newnode, b))
 
     def remove(self, k): # -> void
         if not self.root: raise ValueError("Treap is empty")
         if k <= 0 or k > self.root.sz: raise ValueError("Index out of bounds")
-        a,b= spilt_with_log(self.root, k-1)
-        b,c= spilt_with_log(b,1)
+        a,b= spilt_with_log(self.root, 1, k-1)
+        b,c= spilt_with_log(b,k,k)
         _roots.pop()
         _roots.pop()
         _roots.append(c)
-        log.append({"name":"delete node","data":print_treap(_roots)})
+        log.append({"name":"Delete node","data":print_treap(_roots)})
         del b
+        
         self.root= merge_with_log(a,c)
     
     def clear(self):
