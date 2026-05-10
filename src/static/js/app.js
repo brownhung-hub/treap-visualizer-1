@@ -41,7 +41,7 @@ async function handleInsert() {
         window.actionQueue = res.data; 
         window.currentStepIdx = 0;
         updateFrame();
-        document.getElementById("status-display").innerText = `Ready (Inserted ${val})`;
+        // document.getElementById("status-display").innerText = `Ready (Inserted ${val})`;
     }
 }
 
@@ -56,7 +56,7 @@ async function handleRemove() {
         window.actionQueue = res.data;
         window.currentStepIdx = 0;
         updateFrame();
-        document.getElementById("status-display").innerText = `Ready (Removed pos ${pos})`;
+        // document.getElementById("status-display").innerText = `Ready (Removed pos ${pos})`;
     }
 }
 
