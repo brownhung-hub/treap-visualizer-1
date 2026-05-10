@@ -1,8 +1,17 @@
 const container = document.getElementById("treap-container");
 const svg = d3.select("#treap-container").append("svg").attr("width", "100%").attr("height", "100%");
-const g = svg.append("g");
+const zoomG = svg.append("g");
+const g = zoomG.append("g");
 
-svg.call(d3.zoom().on("zoom", (e) => g.attr("transform", e.transform)));
+const initialOffset = container.offsetWidth / 2;
+g.attr("transform", `translate(${initialOffset}, -50)`);
+
+const zoom = d3.zoom().on("zoom", (e) => zoomG.attr("transform", e.transform));
+svg.call(zoom);
+
+function resetCenter() {
+    svg.transition().duration(300).call(zoom.transform, d3.zoomIdentity);
+}
 
 function clearCanvas() { g.selectAll("*").remove(); }
 
@@ -50,15 +59,15 @@ function renderTreap(stepData) {
         .attr("stroke", d => d.data.highlight2 ? "#e53e3e" : "#3498db")
         .attr("stroke-width", 2);
 
-    nodes.append("text")
-        .attr("dy", "-1.8em")
-        .attr("text-anchor", "middle")
-        .style("font-size", "10px")
-        .style("font-weight", "bold")
-        .text(d => `Val: ${d.data.val}`);
+    // nodes.append("text")
+    //     .attr("dy", "-1.8em")
+    //     .attr("text-anchor", "middle")
+    //     .style("font-size", "10px")
+    //     .style("font-weight", "bold")
+    //     .text(d => `Val: ${d.data.val}`);
 
     nodes.append("text")
-        .attr("dy", "-0.8em")
+        .attr("dy", "-1.3em")
         .attr("text-anchor", "middle")
         .style("font-size", "9px")
         .style("fill", "#718096")
@@ -79,6 +88,4 @@ function renderTreap(stepData) {
         .style("fill", "#e53e3e")
         .text(d => d.data.range_max !== undefined ? `Max: ${d.data.range_max}` : "");
 
-    const offset = width / 2;
-    g.transition().duration(300).attr("transform", `translate(${offset}, 80)`);
 }

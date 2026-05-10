@@ -40,6 +40,7 @@ async function handleInsert() {
     if (res && res.success) {
         window.actionQueue = res.data; 
         window.currentStepIdx = 0;
+        resetCenter();
         updateFrame();
         // document.getElementById("status-display").innerText = `Ready (Inserted ${val})`;
     }
@@ -55,6 +56,7 @@ async function handleRemove() {
     if (res && res.success) {
         window.actionQueue = res.data;
         window.currentStepIdx = 0;
+        resetCenter();
         updateFrame();
         // document.getElementById("status-display").innerText = `Ready (Removed pos ${pos})`;
     }
@@ -70,6 +72,7 @@ async function handleQuery() {
     if (res && res.success) {
         window.actionQueue = res.data;
         window.currentStepIdx = 0;
+        resetCenter();
         updateFrame();
     }
 }
@@ -192,6 +195,7 @@ async function handleBuild() {
     if (res && res.success) {
         window.actionQueue = res.data; 
         window.currentStepIdx = 0;
+        resetCenter();
         updateFrame();
         document.getElementById("status-display").innerText = `Ready (已建立 ${vals.length} 個節點)`;
     }
